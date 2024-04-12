@@ -83,6 +83,7 @@ DATABASES = {
         "HOST": env.get("DB_HOST"),
         "PORT": env.get("DB_PORT"),
         "USER": env.get("DB_USER"),
+        "PASSWORD": env.get("DB_PASSWORD")
     }
 }
 

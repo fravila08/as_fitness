@@ -14,18 +14,31 @@ jobs:
         
         steps:
             - name: Checkout code
-              uses: actions/checkout@v2
+              uses: actions/checkout@v4
 
+            - name: Set up Node
+              uses: actions/setup-node@v4
+              with:
+                node-version: 20
+                cache: 'npm'
+            
             - name: Build React App
               working-directory: front-end
               run: |
                 npm install
                 npm run build
-                ls
+                ls dist/
                 echo "THIS COMPLETED THE BUILD"
             
-            - name: Deploy to Github Pages
-              uses: peaceiris/actions-gh-pages@v3
+            - name: Setup Pages
+              uses: actions/configure-pages@v4
+
+            - name: Upload artifact
+              uses: actions/upload-pages-artifact@v3
               with:
-                personal_token: ${{ secrets.PAGES_TOKEN }}
-                publish_dir: front-end/dist
+                # Upload dist folder
+                path: './front-end/dist'
+                
+            - name: Deploy to GitHub Pages
+              id: deployment
+              uses: actions/deploy-pages@v4

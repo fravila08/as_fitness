@@ -1,0 +1,26 @@
+name: Weekly Front-End Deployment on pages
+
+on:
+    schedule:
+        - cron: '0 0 * * 0'
+
+jobs:
+    build-and-deploy:
+        runs-on: ubuntu-latest
+        
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v2
+
+            - name: Build React App
+              working-directory: front-end
+              run: |
+                npm install
+                npm run build
+            
+            - name: Deploy to Github Pages
+              uses: peaceiris/actions-gh-pages@v3
+              with:
+                personal_token: ${{ secrets.GITHUB_TOKEN }}
+                publish_dir: front-end/dist
+                cname: as-fitness.com

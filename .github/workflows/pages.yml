@@ -1,6 +1,10 @@
 name: Weekly Front-End Deployment on pages
 
 on:
+    push:
+        branches:
+            - main
+            - actions
     schedule:
         - cron: '0 0 * * 0'
 

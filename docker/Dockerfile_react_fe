@@ -1,0 +1,31 @@
+# Use official Node.js image as base for building the React app
+FROM node:latest AS builder
+
+# Set working directory in the container
+WORKDIR /front-end
+
+# Copy the package.json and package-lock.json files
+COPY front-end/package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy the entire content of the Vite + React app into the container
+COPY front-end .
+
+# Build the React app
+RUN npm run build
+# Use official Nginx image as base for serving the built files
+FROM nginx:latest 
+
+WORKDIR /usr/share/nginx/html
+
+# Copy the built files from the builder stage to the Nginx html directory
+COPY --from=builder /front-end/dist /usr/share/nginx/html
+
+# Expose port 80 to the outside world
+EXPOSE 80
+
+# Start Nginx when the container starts
+CMD ["nginx", "-g", "daemon off;"]
+

@@ -29,4 +29,3 @@ jobs:
               with:
                 personal_token: ${{ secrets.PAGES_TOKEN }}
                 publish_dir: front-end/dist
-                cname: as-fitness.com

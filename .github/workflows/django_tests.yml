@@ -80,7 +80,7 @@ jobs:
       - name: Merge Pull Request
         if: ${{github.event_name == 'push' && github.ref == 'refs/heads/models' && steps.test-results.outcome == 'success'}}
         run: |
-          pr_url =$(cat pr.txt)
+          pr_url=$(cat pr.txt)
           echo $pr_url
           curl -X PUT \
             -H "Authorization: Bearer ${{secrets.PAGES_TOKEN}}" \

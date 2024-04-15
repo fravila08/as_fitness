@@ -82,6 +82,6 @@ jobs:
           curl -X PUT \
             -H "Authorization: Bearer ${{secrets.PAGES_TOKEN}}" \
             -H "Accept: application/vnd.github.v3+json" \
-            $pr_url/merge \
+            "$pr_url/merge" \
             -d '{"merge_method":"squash"}'
           echo "Pull request merged"

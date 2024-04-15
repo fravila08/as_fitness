@@ -47,7 +47,6 @@ jobs:
           echo "DJ_DB_HOST=${{ secrets.DJ_DB_HOST }}" >> .env
           echo "DJ_DB_PORT=${{ secrets.DJ_DB_PORT }}" >> .env
           echo "DJANGO_SECRET_KEY=${{secrets.DJANGO_SECRET_KEY}}" >> .env
-          cat .env
 
       - name: Install Dependencies
         working-directory: back-end
@@ -73,7 +72,7 @@ jobs:
           curl -X POST \
             -H "Authorization: Bearer ${{secrets.PAGES_TOKEN}}" \
             -H "Accept: application/vnd.github.v3+json" \
-            https://api.githun.com/repos/${{github.repository}}/pulls \
+            https://api.github.com/repos/${{github.repository}}/pulls \
             -d '{"head": "models", "base":"main", "title":"Merge models into main"}'
           echo "Pull request created"
 

@@ -5,6 +5,11 @@ on:
     branches: ["main", "actions", "models"]
   workflow_dispatch:
 
+permissions:
+  checks: write
+  actions: read
+  contents: read
+
 jobs:
   run-unit-test:
     runs-on: ubuntu-latest
@@ -48,5 +53,3 @@ jobs:
       - name: Run Unit Tests
         working-directory: back-end
         run: python3 manage.py test tests.test_user.test_models
-
-      

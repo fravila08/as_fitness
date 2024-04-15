@@ -69,15 +69,18 @@ jobs:
       - name: Create Pull Request
         if: ${{ steps.test-results.outcome == 'success'}}
         run: |
-          pr_number=$(curl -X POST \
+          pr_url=$(curl -X POST \
             -H "Authorization: Bearer ${{secrets.PAGES_TOKEN}}" \
             -H "Accept: application/vnd.github.v3+json" \
             https://api.github.com/repos/${{github.repository}}/pulls \
-            -d '{"head": "models", "base":"main", "title":"Merge models into main"}' | jq -r '.number')
+            -d '{"head": "models", "base":"main", "title":"Merge models into main"}' | jq -r '.url')
           echo "Pull request created"
 
       - name: Confirm pr_num retention
-        run: echo $pr_number
+        run: |
+          pr_number=$(basename $pr_url)
+          echo "Pull request created: $pr_url"
+          echo "Pull request number: $pr_number"
 
       - name: Merge Pull Request
         if: ${{github.event_name == 'push' && github.ref == 'refs/heads/models' && steps.test-results.outcome == 'success'}}

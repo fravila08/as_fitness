@@ -38,6 +38,16 @@ jobs:
           echo finished pg commands...
           sudo service postgresql restart
 
+      - name: Testing Django Connection
+        run: sudo su - postgres -c "psql --echo-all -h ${{secrets.DB_DJ_HOST}} -p ${{secrets.DJ_DB_PORT}} -U ${{secrets.DB_USER}} "
+      
+      - name: Build env file
+        working-directory: back-end
+        run: |
+          env > .env
+          ls -a
+          cat .env
+
       - name: Install Dependencies
         working-directory: back-end
         run: |

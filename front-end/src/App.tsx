@@ -6,19 +6,23 @@ import "./App.css";
 
 function App() {
   const [count, setCount] = useState(0);
-
-  useEffect(()=>{
-    axios.get("http://localhost/api/")
-      .then((response)=>{
-        console.log(response.data)
-      })
-      .catch((err)=>{
-        alert(err.message)
-      })
-      .finally(()=>{
-        console.log("success")
-      })
-  }, [])
+  useEffect(() => {
+    if (Boolean(import.meta.env.VITE_DEPLOY)) {
+      axios
+        .get("http://localhost/api/")
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((err) => {
+          alert(err.message);
+        })
+        .finally(() => {
+          console.log("We are connected with Django");
+        });
+    } else {
+      console.log("This is a static site hosting only Dummy Data");
+    }
+  }, []);
 
   return (
     <>

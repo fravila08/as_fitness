@@ -6,6 +6,10 @@
 
 A's Fitness is an empowering application designed to help individuals cultivate the mindset of a warrior by documenting their physical and mental accomplishments, as well as their ongoing pursuit of self-improvement. Whether you're striving for peak physical fitness, mental resilience, or personal growth, A's Fitness provides the tools to track your progress and stay motivated on your journey.
 
+## Check It Out
+
+The Front-End is currently being hosted through Github Pages and hosts dummy data led features. Click [here](https://fravila08.github.io/as_fitness/) to check it out!
+
 ## Key Features
 
 - **Diary Entries**: Keep a detailed record of your daily achievements, challenges, and reflections on your journey to becoming a better warrior.

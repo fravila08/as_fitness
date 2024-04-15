@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.core import validators as v
+from .validators import weight_validator
 import uuid
 
 
@@ -15,3 +17,10 @@ class App_user(AbstractUser):
 
     def __str__(self):
         return self.display_name
+
+class User_profile(models.Model):
+    age = models.PositiveIntegerField(default=18, validators=[v.MinValueValidator(10), v.MaxValueValidator(120)])
+    weight = models.DecimalField(max_digits=5, decimal_places=2, validators=[weight_validator])
+    bio = models.TextField(validators=[v.MinLengthValidator(50), v.MaxValueValidator(500)])
+    picture = models.ImageField(upload_to="user_pictures/", null=True, blank=True, default='settings.DEFAULT_PICTURE_PATH')
+    user = models.OneToOneField(App_user, on_delete=models.CASCADE, related_name="profile")

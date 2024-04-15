@@ -40,6 +40,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'user_app',
+    'mental_workout_app',
+    'physical_workout_app',
+    'reading_exercise_app',
+    'api_app',
+    'challenge_app',
+    'exercise_app'
 ]
 
 MIDDLEWARE = [
@@ -128,3 +137,6 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+AUTH_USER_MODEL = "user_app.App_user"

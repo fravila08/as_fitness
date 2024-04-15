@@ -48,11 +48,6 @@ jobs:
           echo "DJ_DB_PORT=${{ secrets.DJ_DB_PORT }}" >> .env
           echo "DJANGO_SECRET_KEY=${{secrets.DJANGO_SECRET_KEY}}" >> .env
           cat .env
-          
-      - name: Testing Django Connection
-        run: |
-          sudo su - postgres -c "psql --echo-all -h ${{secrets.DJ_DB_HOST}} -p ${{secrets.DJ_DB_PORT}} -U ${{secrets.DB_USER}} -W"
-          ${{secrets.DB_PASSWORD}}
 
       - name: Install Dependencies
         working-directory: back-end

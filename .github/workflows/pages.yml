@@ -2,7 +2,7 @@ name: Weekly Front-End Deployment on pages
 
 on:
   push:
-    branches: ["main", "actions"]
+    branches: ["main"]
   schedule:
     - cron: "0 0 * * 0"
   workflow_dispatch:

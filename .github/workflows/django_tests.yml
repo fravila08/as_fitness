@@ -75,17 +75,13 @@ jobs:
             https://api.github.com/repos/${{github.repository}}/pulls \
             -d '{"head": "models", "base":"main", "title":"Merge models into main"}' | jq -r '._links.self.href')
           echo "Pull request created: $pr_url"
-          echo $pr_url >> back-end/.env
+          echo $pr_url > pr.txt
 
       - name: Merge Pull Request
         if: ${{github.event_name == 'push' && github.ref == 'refs/heads/models' && steps.test-results.outcome == 'success'}}
         run: |
-          source back-end/.env
+          pr_url =$(cat pr.txt)
           echo $pr_url
-          new_pr_url=$pr_url/merge
-          echo $new_pr_url
-          printf -v pr_url_encoded '%q' "$new_pr_url"
-          echo pr_url_encoded
           curl -X PUT \
             -H "Authorization: Bearer ${{secrets.PAGES_TOKEN}}" \
             -H "Accept: application/vnd.github.v3+json" \

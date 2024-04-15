@@ -74,7 +74,7 @@ jobs:
             -H "Authorization: Bearer ${{secrets.PAGES_TOKEN}}" \
             -H "Accept: application/vnd.github.v3+json" \
             https://api.githun.com/repos/${{github.repository}}/pulls \
-            -d '{"head": "modles", "base":"main", "title":"Merge models into main"}'
+            -d '{"head": "models", "base":"main", "title":"Merge models into main"}'
           echo "Pull request created"
 
       - name: Merge Pull Request

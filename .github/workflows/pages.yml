@@ -1,47 +1,57 @@
 name: Weekly Front-End Deployment on pages
 
 on:
-    push:
-        branches:
-            - main
-            - actions
-    schedule:
-        - cron: '0 0 * * 0'
+  push:
+    branches: ["main", "actions"]
+  schedule:
+    - cron: "0 0 * * 0"
+  workflow_dispatch:
 
-permissions: write-all
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
 
 jobs:
-    build-and-deploy:
-        runs-on: ubuntu-latest
-        
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v4
+  build-and-deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+      
+    runs-on: ubuntu-latest
 
-            - name: Set up Node
-              uses: actions/setup-node@v4
-              with:
-                node-version: 20
-                cache: 'npm'
-                cache-dependency-path: ./front-end/package-*.json
-            
-            - name: Build React App
-              working-directory: front-end
-              run: |
-                npm install
-                npm run build
-                ls dist/
-                echo "THIS COMPLETED THE BUILD"
-            
-            - name: Setup Pages
-              uses: actions/configure-pages@v4
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-            - name: Upload artifact
-              uses: actions/upload-pages-artifact@v3
-              with:
-                # Upload dist folder
-                path: './front-end/dist'
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+          cache-dependency-path: ./front-end/package-*.json
 
-            - name: Deploy to GitHub Pages
-              id: deployment
-              uses: actions/deploy-pages@v4
+      - name: Build React App
+        working-directory: front-end
+        run: |
+          npm install
+          npm run build
+          ls dist/
+          echo "THIS COMPLETED THE BUILD"
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Upload dist folder
+          path: "./front-end/dist"
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

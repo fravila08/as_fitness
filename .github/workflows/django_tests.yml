@@ -64,3 +64,30 @@ jobs:
       - name: Run Unit Tests
         working-directory: back-end
         run: python3 manage.py test tests.test_user.test_models
+        id: test-results
+        continue-on-error: true
+
+      - name: Create Pull Request
+        if: ${{ steps.test-results.outcome == 'success'}}
+        run: |
+          curl -X POST \
+            -H "Authorization: Bearer ${{secrets.PAGES_TOKEN}}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.githun.com/repos/${{github.repository}}/pulls \
+            -d '{"head": "modles", "base":"main", "title":"Merge models into main"}'
+          echo "Pull request created"
+
+      - name: Merge Pull Request
+        if: ${{github.event_name == 'push' && github.ref == 'refs/heads/models' && steps.test-results.outcome == 'success'}}
+        run: |
+          pr_number=$(curl -X POST \
+            -H "Authorization: Bearer ${{secrets.PAGES_TOKEN}}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/${{github.repository}}/pulls \
+            -d '{"head":"models", "base":"main", "title":"merge models onto main"}' | jq -r '.number')
+          curl -X PUT \
+            -H "Authorization: Bearer ${{secrets.PAGES_TOKEN}}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/${{github.repository}}/pulls/$pr_number/merge \
+            -d '{"merge_method":"squash"}'
+          echo "Pull request merged"

@@ -41,13 +41,18 @@ jobs:
       - name: Build env file
         working-directory: back-end
         run: |
+          export ${{secrets.DB_USER}}
+          export ${{secrets.DB_NAME}}
+          export ${{secrets.DJ_DB_HOST}}
+          export ${{secrets.DJ_DB_PORT}}
+          export ${{secrets.DB_PASSWORD}}
           env > .env
           ls -a
           cat .env
           
       - name: Testing Django Connection
         run: |
-          sudo su - postgres -c "psql --echo-all -h ${{secrets.DJ_DB_HOST}} -p ${{secrets.DJ_DB_PORT}} -U ${{secrets.DB_USER}} "
+          sudo su - postgres -c "psql --echo-all -h ${{secrets.DJ_DB_HOST}} -p ${{secrets.DJ_DB_PORT}} -U ${{secrets.DB_USER}} -W"
           ${{secrets.DB_PASSWORD}}
 
       - name: Install Dependencies

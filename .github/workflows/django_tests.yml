@@ -79,9 +79,10 @@ jobs:
       - name: Merge Pull Request
         if: ${{github.event_name == 'push' && github.ref == 'refs/heads/models' && steps.test-results.outcome == 'success'}}
         run: |
-          pr_url="$pr_url/merge"
-          echo pr_url
+          pr_url=$pr_url/merge
+          echo $pr_url
           printf -v pr_url_encoded '%q' "$pr_url"
+          echo pr_url_encoded
           curl -X PUT \
             -H "Authorization: Bearer ${{secrets.PAGES_TOKEN}}" \
             -H "Accept: application/vnd.github.v3+json" \

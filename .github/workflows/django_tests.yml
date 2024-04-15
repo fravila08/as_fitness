@@ -80,11 +80,11 @@ jobs:
       - name: Merge Pull Request
         if: ${{github.event_name == 'push' && github.ref == 'refs/heads/models' && steps.test-results.outcome == 'success'}}
         run: |
-          pr_url=$(cat pr.txt)
+          pr_url=$(cat pr.txt)/merge
           echo $pr_url
           curl -X PUT \
             -H "Authorization: Bearer ${{secrets.PAGES_TOKEN}}" \
             -H "Accept: application/vnd.github.v3+json" \
-            $pr_url_encoded \
+            $pr_url\
             -d '{"merge_method":"squash"}'
           echo "Pull request merged"

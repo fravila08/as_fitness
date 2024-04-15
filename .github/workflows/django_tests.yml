@@ -76,6 +76,9 @@ jobs:
             -d '{"head": "models", "base":"main", "title":"Merge models into main"}' | jq -r '.number')
           echo "Pull request created"
 
+      - name: Confirm pr_num retention
+        run: echo $pr_number
+
       - name: Merge Pull Request
         if: ${{github.event_name == 'push' && github.ref == 'refs/heads/models' && steps.test-results.outcome == 'success'}}
         run: |

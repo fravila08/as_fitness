@@ -28,7 +28,7 @@ jobs:
           sleep 6
           sudo service postgresql start
           sudo su - postgres -c "psql --echo-all -U postgres -d postgres --command \"CREATE USER runner WITH SUPERUSER CREATEDB CREATEROLE LOGIN PASSWORD '';\""
-          sudo su - postgres -c "psql --echo-all -U postgres -d postgres --command \"CREATE USER ${{secrets.DB_USER}} WITH SUPERUSER CREATEDB CREATEROLE LOGIN PASSWORD ${{secrets.DB_PASSWORD}};\""
+          sudo su - postgres -c "psql --echo-all -U postgres -d postgres --command \"CREATE USER ${{secrets.DB_USER}} WITH SUPERUSER CREATEDB CREATEROLE LOGIN PASSWORD '${{secrets.DB_PASSWORD}}'';\""
           sudo su - postgres -c "psql --echo-all -U postgres -d postgres --command \"create database ${{secrets.DB_NAME}};\""
           echo finished pg commands...
           sudo service postgresql restart

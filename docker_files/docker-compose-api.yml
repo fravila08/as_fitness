@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PORT: ${DB_PORT}
+  django_api:
+    build:
+      context: .
+      dockerfile: ./Dockerfile_django_api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ../back-end:/back-end
+    environment:
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DJ_DB_HOST: postgres
+      DJ_DB_PORT: ${DB_PORT}
+      DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
+    depends_on:
+      - postgres

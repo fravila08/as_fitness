@@ -24,8 +24,12 @@ RUN echo "DB_NAME=${DB_NAME}" >> .env \
     && echo "DJ_DB_PORT=${DJ_DB_PORT}" >> .env \
     && echo "DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}" >> .env
 
+RUN python3 manage.py makemigrations
+
+RUN python3 manage.py migrate
+
 # Expose port 8000 to the outside world
 EXPOSE 8000
 
 # Run Gunicorn server when the container launches
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "fitness_proj.wsgi:application"]
+CMD ["python3","manage.py","test","tests.test_user_test_models"]
